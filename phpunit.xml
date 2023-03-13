@@ -26,7 +26,7 @@
             <file>./src/SafeDispatcherServiceProvider.php</file>
         </exclude>
     </coverage>
-    <testsuites>s
+    <testsuites>
         <testsuite name="SafeDispatcher Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>

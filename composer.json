@@ -1,23 +1,30 @@
 {
-    "name": "saas/safe-dispatcher",
+    "name": "shipsaas/safe-dispatcher",
     "type": "library",
-    "version": "1.0.2",
+    "version": "1.0.0",
     "description": "Ensure your Queue msg is tracked and retryable when failed to dispatch.",
     "keywords": [
         "laravel library",
         "laravel safe dispatcher",
-        "laravel safe dispatch erensure your job is totally tracked"
+        "laravel safe dispatch ensure your Queue Job Msgs are totally tracked and resendable"
     ],
+    "authors": [
+        {
+            "name": "Lam Ha",
+            "email": "hangoclam250595@gmail.com"
+        }
+    ],
+    "license": "MIT",
     "require": {
-        "php": "^8.0|^8.1",
-        "laravel/framework": "^9|dev-master",
-        "orchestra/testbench": "^7.22"
+        "php": "^8.1|^8.2",
+        "laravel/framework": "^9|dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^v1.20.0",
         "mockery/mockery": "^1.5.1",
-        "phpunit/phpunit": "^9.6",
-        "phpunit/php-code-coverage": "^9.2.17|^9.2.17|^10.0",
+        "phpunit/phpunit": "^9.5.25",
+        "orchestra/testbench": "^7",
+        "phpunit/php-code-coverage": "^9.2.17",
         "friendsofphp/php-cs-fixer": "^3.10"
     },
     "extra": {
@@ -27,10 +34,9 @@
             ]
         }
     },
-    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "SaasSafeDispatcher\\": "./src/"
+            "SaasSafeDispatcher\\": "src/"
         },
         "files": [
             "src/Functions/safe-dispatcher-functions.php"
@@ -38,15 +44,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SaasSafeDispatcher\\Tests\\": "./tests"
+            "SaasSafeDispatcher\\Tests\\": "tests/"
         }
     },
-    "authors": [
-        {
-            "name": "Lam Ha",
-            "email": "hangoclam250595@gmail.com"
-        }
-    ],
     "scripts": {
         "test-coverage": [
             "@php vendor/bin/phpunit --coverage-clover coverage.xml"

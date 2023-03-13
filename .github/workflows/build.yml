@@ -1,54 +1,54 @@
 name: Build & Test
 env:
-  SSH_CONFIG: ${{ secrets.TESTING_ENV }}
+    SSH_CONFIG: ${{ secrets.TESTING_ENV }}
 
 on:
-  pull_request:
-    branches:
-      - 'main'
-    types: [ opened, synchronize, reopened, ready_for_review ]
-  push:
-    branches:
-      - 'main'
+    pull_request:
+        branches:
+            - 'main'
+        types: [ opened, synchronize, reopened, ready_for_review ]
+    push:
+        branches:
+            - 'main'
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        version: [ '8.0', '8.1' ]
-    runs-on: ubuntu-latest
-    steps:
-      -   uses: actions/checkout@v3
-          if: success()
+    build:
+        strategy:
+            matrix:
+                version: [ '8.1', '8.2' ]
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+                if: success()
 
-      -   name: Setup PHP with coverage driver
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ matrix.version }}
-            coverage: pcov
-            extensions: phpredis
+            -   name: Setup PHP with coverage driver
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.version }}
+                    coverage: pcov
+                    extensions: phpredis
 
-      -   name: Start Redis
-          uses: supercharge/redis-github-action@1.4.0
-          with:
-            redis-version: 6
+            -   name: Start Redis
+                uses: supercharge/redis-github-action@1.4.0
+                with:
+                    redis-version: 6
 
-      -   name: Setup
-          if: success()
-          run: |
-            php -v
-            sudo service mysql start
-            composer install --no-interaction
-            echo "$TESTING_ENV" > .env.testing
+            -   name: Setup
+                if: success()
+                run: |
+                    php -v
+                    sudo service mysql start
+                    composer install --no-interaction
+                    echo "$TESTING_ENV" > .env.testing
 
-      -   name: PHPUnit tests with coverage
-          if: success() && github.event.pull_request.draft == false
-          run: |
-            composer test-coverage
+            -   name: PHPUnit tests with coverage
+                if: success() && github.event.pull_request.draft == false
+                run: |
+                    composer test-coverage
 
-      -   name: upload coverage to codecov.io
-          if: success() && matrix.version == '8.1'
-          uses: codecov/codecov-action@v1
-          with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            file: ./coverage.xml
+            -   name: upload coverage to codecov.io
+                if: success() && matrix.version == '8.1'
+                uses: codecov/codecov-action@v1
+                with:
+                    token: ${{ secrets.CODECOV_TOKEN }}
+                    file: ./coverage.xml
